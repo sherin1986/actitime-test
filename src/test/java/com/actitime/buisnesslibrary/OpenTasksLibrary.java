@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
@@ -21,13 +22,17 @@ public class OpenTasksLibrary {
 	ExcelLibrary eLibrary;
 	ProjectsNTasks projectTasks;
 	com.actitime.pagefactorylibrary.OpenTasks taskBtn;
+	
+	WebDriver driver;
 
-	public OpenTasksLibrary() throws InvalidFormatException, IOException {
-		dLibrary = new WebdriverCommonUtil();
+	public OpenTasksLibrary(WebDriver driver) throws InvalidFormatException, IOException {
+		this.driver = driver;
+		
+		dLibrary = new WebdriverCommonUtil(driver);
 		eLibrary = new ExcelLibrary();
-		projectTasks = PageFactory.initElements(Driver.driver,
+		projectTasks = PageFactory.initElements(driver,
 				ProjectsNTasks.class);
-		taskBtn = PageFactory.initElements(Driver.driver,
+		taskBtn = PageFactory.initElements(driver,
 				com.actitime.pagefactorylibrary.OpenTasks.class);
 	}
 
@@ -48,13 +53,13 @@ public class OpenTasksLibrary {
 				String billabilityStatus = eLibrary.getExcelData(j, 3,
 						sheetName);
 				String task = "task[" + taskIndex + "]";
-				Driver.driver.findElement(By.name(task + ".name")).sendKeys(
+				driver.findElement(By.name(task + ".name")).sendKeys(
 						taskName);
-				Driver.driver.findElement(By.name(task + ".deadline"))
+				driver.findElement(By.name(task + ".deadline"))
 						.sendKeys(deadLine);
 
 				Select billabilitySelect = new Select(
-						Driver.driver.findElement(By
+						driver.findElement(By
 								.name(task + ".billingType")));
 
 				List<WebElement> billabilityList = billabilitySelect
@@ -75,10 +80,10 @@ public class OpenTasksLibrary {
 
 			if ("5".equals(eLibrary.getCellData("Tasks", j, 0))) {
 				String taskName = eLibrary.getExcelData(j, 1, sheetName);
-				Driver.driver.findElement(
+				driver.findElement(
 						By.xpath("//td[a[text()='" + taskName
 								+ "']]/following-sibling::td[4]/a")).click();
-				Alert deleteTaskAlert = Driver.driver.switchTo().alert();
+				Alert deleteTaskAlert = driver.switchTo().alert();
 				deleteTaskAlert.accept();
 				dLibrary.waitForPageToLoad();
 			}

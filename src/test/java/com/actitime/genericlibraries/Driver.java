@@ -4,8 +4,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class Driver {
-	public static WebDriver driver = new FirefoxDriver();
+	private WebDriver driver;
 
+	public Driver() {
+		driver = new FirefoxDriver();
+	}
+	
+	public void quit(){
+		driver.quit();
+	}
+	
+	public WebDriver getWebDriver() {
+		return driver;
+	}
 	// public static WebDriver driver;
 	//
 	// public WebDriver getBrowser() {

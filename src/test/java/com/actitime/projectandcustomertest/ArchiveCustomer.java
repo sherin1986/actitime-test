@@ -27,22 +27,27 @@ public class ArchiveCustomer {
 	ActiveProjectsAndCustomers activeBtn;
 	Archives archiveBtn;
 	WebdriverCommonUtil dLibrary;
+	
+	Driver driver;
 
 	@BeforeClass
 	public void bClass() throws InvalidFormatException, IOException {
-		cLibrary = new CommonLibrary();
-		bLibrary = new ProjectsNCustomersLibrary();
+		
+		Driver driver = new Driver();
+		
+		cLibrary = new CommonLibrary(driver.getWebDriver());
+		bLibrary = new ProjectsNCustomersLibrary(driver.getWebDriver());
 		eLibrary = new ExcelLibrary();
-		dLibrary = new WebdriverCommonUtil();
-		aLibrary = new ArchivesLibrary();
-		activeBtn = PageFactory.initElements(Driver.driver,
+		dLibrary = new WebdriverCommonUtil(driver.getWebDriver());
+		aLibrary = new ArchivesLibrary(driver.getWebDriver());
+		activeBtn = PageFactory.initElements(driver.getWebDriver(),
 				ActiveProjectsAndCustomers.class);
-		archiveBtn = PageFactory.initElements(Driver.driver, Archives.class);
+		archiveBtn = PageFactory.initElements(driver.getWebDriver(), Archives.class);
 	}
 
 	@BeforeMethod
 	public void login() throws InvalidFormatException, IOException {
-		Driver.driver.get("http://meenu-hp:8090/login.do");
+		cLibrary.getUrl();
 		cLibrary.loginPage(eLibrary.getExcelData(5, 1, "Testcases"),
 				eLibrary.getExcelData(5, 2, "Testcases"));
 		bLibrary.navigateToCustomersAndProjects();
@@ -74,7 +79,7 @@ public class ArchiveCustomer {
 
 	@AfterClass
 	public void aClass(){
-		Driver.driver.quit();
+		driver.quit();
 	}
 
 }

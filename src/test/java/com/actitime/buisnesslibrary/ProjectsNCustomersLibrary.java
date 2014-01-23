@@ -1,6 +1,7 @@
 package com.actitime.buisnesslibrary;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
@@ -19,18 +20,22 @@ public class ProjectsNCustomersLibrary {
 	ActiveProjectsAndCustomers activeProjectnCustomer;
 	AddNewProject addNewProject;
 	EditCustomerInformation editCustomer;
+	
+	WebDriver driver;
 
-	public ProjectsNCustomersLibrary() {
-		dLibrary = new WebdriverCommonUtil();
-		projectTasks = PageFactory.initElements(Driver.driver,
+	public ProjectsNCustomersLibrary(WebDriver driver) {
+		this.driver = driver;
+		
+		dLibrary = new WebdriverCommonUtil(driver);
+		projectTasks = PageFactory.initElements(driver,
 				ProjectsNTasks.class);
-		addCustomer = PageFactory.initElements(Driver.driver,
+		addCustomer = PageFactory.initElements(driver,
 				AddNewCustomer.class);
-		activeProjectnCustomer = PageFactory.initElements(Driver.driver,
+		activeProjectnCustomer = PageFactory.initElements(driver,
 				ActiveProjectsAndCustomers.class);
-		addNewProject = PageFactory.initElements(Driver.driver,
+		addNewProject = PageFactory.initElements(driver,
 				AddNewProject.class);
-		editCustomer = PageFactory.initElements(Driver.driver,
+		editCustomer = PageFactory.initElements(driver,
 				EditCustomerInformation.class);
 	}
 
@@ -50,11 +55,11 @@ public class ProjectsNCustomersLibrary {
 	public boolean verifyCustomer(String actualName) {
 		boolean status = true;
 		try {
-			if (Driver.driver.findElement(By.linkText(actualName))
+			if (driver.findElement(By.linkText(actualName))
 					.isDisplayed()) {
-				Driver.driver.findElement(By.linkText(actualName)).click();
+				driver.findElement(By.linkText(actualName)).click();
 				dLibrary.waitForPageToLoad();
-				String expectedName = Driver.driver
+				String expectedName = driver
 						.findElement(
 								By.xpath("//td[contains(text(),'You have selected customer:')]/following-sibling::td/span"))
 						.getText();
@@ -64,7 +69,7 @@ public class ProjectsNCustomersLibrary {
 				System.out
 						.println(expectedName
 								+ " is "
-								+ Driver.driver
+								+ driver
 										.findElement(
 												By.xpath("//td[contains(text(),'Customer status:')]/following-sibling::td/span"))
 										.getText());
@@ -78,9 +83,9 @@ public class ProjectsNCustomersLibrary {
 	public boolean modifyCustomer(String nameToModify, String newName) {
 		boolean status = true;
 		try {
-			if (Driver.driver.findElement(By.linkText(nameToModify))
+			if (driver.findElement(By.linkText(nameToModify))
 					.isDisplayed()) {
-				Driver.driver.findElement(By.linkText(nameToModify)).click();
+				driver.findElement(By.linkText(nameToModify)).click();
 				dLibrary.waitForPageToLoad();
 				editCustomer.getCustomerNameEdit().clear();
 				editCustomer.getCustomerNameEdit().sendKeys(newName);
@@ -96,9 +101,9 @@ public class ProjectsNCustomersLibrary {
 	public boolean createProject(String actualName, String projectName) {
 		boolean status = true;
 		try {
-			if (Driver.driver.findElement(By.linkText(actualName))
+			if (driver.findElement(By.linkText(actualName))
 					.isDisplayed()) {
-				Driver.driver.findElement(
+				driver.findElement(
 						By.xpath("//td[a[text()='" + actualName
 								+ "']]/following-sibling::td[1]/a")).click();
 				dLibrary.waitForPageToLoad();
@@ -117,11 +122,11 @@ public class ProjectsNCustomersLibrary {
 	public boolean verifyProject(String projectName) {
 		boolean status = true;
 		try {
-			if (Driver.driver.findElement(By.linkText(projectName))
+			if (driver.findElement(By.linkText(projectName))
 					.isDisplayed()) {
-				Driver.driver.findElement(By.linkText(projectName)).click();
+				driver.findElement(By.linkText(projectName)).click();
 				dLibrary.waitForPageToLoad();
-				String expectedName = Driver.driver
+				String expectedName = driver
 						.findElement(
 								By.xpath("//td[contains(text(),'You have selected project:')]/following-sibling::td/span"))
 						.getText();
@@ -131,7 +136,7 @@ public class ProjectsNCustomersLibrary {
 				System.out
 						.println(expectedName
 								+ " is "
-								+ Driver.driver
+								+ driver
 										.findElement(
 												By.xpath("//td[contains(text(),'Project status:')]/following-sibling::td/span"))
 										.getText());

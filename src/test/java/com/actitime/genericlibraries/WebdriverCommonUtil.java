@@ -5,40 +5,47 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WebdriverCommonUtil {
+	
+	WebDriver driver;
+	
+	public WebdriverCommonUtil(WebDriver driver) {
+		this.driver = driver;
+	}
 
 	public void waitForPageToLoad() {
-		Driver.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 
 	public void waitForLinkPresent(String linkText) {
-		WebDriverWait wait = new WebDriverWait(Driver.driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.elementToBeClickable(By
 				.linkText(linkText)));
 	}
 
 	public void waitForElementPresent(String xpath) {
-		WebDriverWait wait = new WebDriverWait(Driver.driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By
 				.xpath(xpath)));
 	}
 
 	public void waitForNamePresent(String name) {
-		WebDriverWait wait = new WebDriverWait(Driver.driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.elementToBeClickable(By.name(name)));
 	}
 
 	public void waitForIdPresent(String id) {
-		WebDriverWait wait = new WebDriverWait(Driver.driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id(id)));
 	}
 
 	public boolean verifyText(String expectedText) {
-		String entirePageSource = Driver.driver.getPageSource();
+		String entirePageSource = driver.getPageSource();
 		boolean status = false;
 		if (entirePageSource.contains(expectedText)) {
 			status = true;
@@ -47,7 +54,7 @@ public class WebdriverCommonUtil {
 	}
 
 	public boolean verifyTextPresent(String xpath, String expectedText) {
-		String actualText = Driver.driver.findElement(By.xpath(xpath))
+		String actualText = driver.findElement(By.xpath(xpath))
 				.getText();
 		boolean status = false;
 		if (actualText.contains(expectedText)) {
@@ -62,7 +69,7 @@ public class WebdriverCommonUtil {
 		int count = 0;
 		while (count < 10) {
 			try {
-				Driver.driver.findElement(By.xpath(xpath));
+				driver.findElement(By.xpath(xpath));
 				status = true;
 				break;
 			} catch (Exception e) {
@@ -78,7 +85,7 @@ public class WebdriverCommonUtil {
 		int count = 0;
 		while (count < 10) {
 			try {
-				Driver.driver.findElement(By.id(id));
+				driver.findElement(By.id(id));
 				status = true;
 				break;
 			} catch (Exception e) {
@@ -94,7 +101,7 @@ public class WebdriverCommonUtil {
 		int count = 0;
 		while (count < 10) {
 			try {
-				Driver.driver.findElement(By.name(name));
+				driver.findElement(By.name(name));
 				status = true;
 				break;
 			} catch (Exception e) {
@@ -106,7 +113,7 @@ public class WebdriverCommonUtil {
 	}
 
 	public String[] getRowData(String rowXpath) {
-		String entireRowData = Driver.driver.findElement(By.xpath(rowXpath))
+		String entireRowData = driver.findElement(By.xpath(rowXpath))
 				.getText();
 		String[] rowDataArray = entireRowData.split(" ");
 		return rowDataArray;
@@ -114,7 +121,7 @@ public class WebdriverCommonUtil {
 
 	public String[] getColumnData(String columnXpath) {
 
-		List<WebElement> entireColumnData = Driver.driver.findElements(By
+		List<WebElement> entireColumnData = driver.findElements(By
 				.xpath(columnXpath));
 		String[] columnDataArray = new String[entireColumnData.size()];
 		for (int i = 0; i < entireColumnData.size(); i++) {
@@ -131,14 +138,14 @@ public class WebdriverCommonUtil {
 		while (true) {
 
 			try {
-				String entireRowData = Driver.driver.findElement(
+				String entireRowData = driver.findElement(
 						By.xpath(rowXpath)).getText();
 				rowDataArray = entireRowData.split(" ");
 				break;
 			} catch (NoSuchElementException e) {
-				Driver.driver.findElement(By.xpath(clickableNextButtonXpath))
+				driver.findElement(By.xpath(clickableNextButtonXpath))
 						.click();
-				Driver.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			}
 		}
 

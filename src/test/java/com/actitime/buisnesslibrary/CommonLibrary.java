@@ -1,5 +1,6 @@
 package com.actitime.buisnesslibrary;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.actitime.genericlibraries.Driver;
@@ -11,11 +12,19 @@ public class CommonLibrary {
 	WebdriverCommonUtil dLibrary;
 	Login login;
 	CommonPage commonPage;
+	
+	WebDriver driver;
 
-	public CommonLibrary() {
-		dLibrary = new WebdriverCommonUtil();
-		login = PageFactory.initElements(Driver.driver, Login.class);
-		commonPage = PageFactory.initElements(Driver.driver, CommonPage.class);
+	public CommonLibrary(WebDriver driver) {
+		this.driver = driver;
+		
+		dLibrary = new WebdriverCommonUtil(driver);
+		login = PageFactory.initElements(driver, Login.class);
+		commonPage = PageFactory.initElements(driver, CommonPage.class);
+	}
+
+	public void getUrl() {
+		driver.get("http://meenu-hp:8090/login.do");
 	}
 
 	public boolean loginPage(String username, String password) {

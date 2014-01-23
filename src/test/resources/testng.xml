@@ -4,6 +4,7 @@
   <test name="Test">
     <classes>
       <class name="com.actitime.projectandcustomertest.ArchiveCustomer"/>
+      <class name="com.actitime.projectandcustomertest.OpenTasks"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
