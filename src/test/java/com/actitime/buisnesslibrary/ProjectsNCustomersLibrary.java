@@ -20,21 +20,17 @@ public class ProjectsNCustomersLibrary {
 	ActiveProjectsAndCustomers activeProjectnCustomer;
 	AddNewProject addNewProject;
 	EditCustomerInformation editCustomer;
-	
 	WebDriver driver;
 
 	public ProjectsNCustomersLibrary(WebDriver driver) {
 		this.driver = driver;
-		
+
 		dLibrary = new WebdriverCommonUtil(driver);
-		projectTasks = PageFactory.initElements(driver,
-				ProjectsNTasks.class);
-		addCustomer = PageFactory.initElements(driver,
-				AddNewCustomer.class);
+		projectTasks = PageFactory.initElements(driver, ProjectsNTasks.class);
+		addCustomer = PageFactory.initElements(driver, AddNewCustomer.class);
 		activeProjectnCustomer = PageFactory.initElements(driver,
 				ActiveProjectsAndCustomers.class);
-		addNewProject = PageFactory.initElements(driver,
-				AddNewProject.class);
+		addNewProject = PageFactory.initElements(driver, AddNewProject.class);
 		editCustomer = PageFactory.initElements(driver,
 				EditCustomerInformation.class);
 	}
@@ -55,8 +51,7 @@ public class ProjectsNCustomersLibrary {
 	public boolean verifyCustomer(String actualName) {
 		boolean status = true;
 		try {
-			if (driver.findElement(By.linkText(actualName))
-					.isDisplayed()) {
+			if (driver.findElement(By.linkText(actualName)).isDisplayed()) {
 				driver.findElement(By.linkText(actualName)).click();
 				dLibrary.waitForPageToLoad();
 				String expectedName = driver
@@ -69,9 +64,8 @@ public class ProjectsNCustomersLibrary {
 				System.out
 						.println(expectedName
 								+ " is "
-								+ driver
-										.findElement(
-												By.xpath("//td[contains(text(),'Customer status:')]/following-sibling::td/span"))
+								+ driver.findElement(
+										By.xpath("//td[contains(text(),'Customer status:')]/following-sibling::td/span"))
 										.getText());
 			}
 		} catch (Exception e) {
@@ -83,8 +77,7 @@ public class ProjectsNCustomersLibrary {
 	public boolean modifyCustomer(String nameToModify, String newName) {
 		boolean status = true;
 		try {
-			if (driver.findElement(By.linkText(nameToModify))
-					.isDisplayed()) {
+			if (driver.findElement(By.linkText(nameToModify)).isDisplayed()) {
 				driver.findElement(By.linkText(nameToModify)).click();
 				dLibrary.waitForPageToLoad();
 				editCustomer.getCustomerNameEdit().clear();
@@ -101,8 +94,7 @@ public class ProjectsNCustomersLibrary {
 	public boolean createProject(String actualName, String projectName) {
 		boolean status = true;
 		try {
-			if (driver.findElement(By.linkText(actualName))
-					.isDisplayed()) {
+			if (driver.findElement(By.linkText(actualName)).isDisplayed()) {
 				driver.findElement(
 						By.xpath("//td[a[text()='" + actualName
 								+ "']]/following-sibling::td[1]/a")).click();
@@ -122,8 +114,7 @@ public class ProjectsNCustomersLibrary {
 	public boolean verifyProject(String projectName) {
 		boolean status = true;
 		try {
-			if (driver.findElement(By.linkText(projectName))
-					.isDisplayed()) {
+			if (driver.findElement(By.linkText(projectName)).isDisplayed()) {
 				driver.findElement(By.linkText(projectName)).click();
 				dLibrary.waitForPageToLoad();
 				String expectedName = driver
@@ -136,9 +127,8 @@ public class ProjectsNCustomersLibrary {
 				System.out
 						.println(expectedName
 								+ " is "
-								+ driver
-										.findElement(
-												By.xpath("//td[contains(text(),'Project status:')]/following-sibling::td/span"))
+								+ driver.findElement(
+										By.xpath("//td[contains(text(),'Project status:')]/following-sibling::td/span"))
 										.getText());
 			}
 		} catch (Exception e) {

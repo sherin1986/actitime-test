@@ -33,7 +33,7 @@ public class ArchiveCustomer {
 	@BeforeClass
 	public void bClass() throws InvalidFormatException, IOException {
 		
-		Driver driver = new Driver();
+		driver = new Driver();
 		
 		cLibrary = new CommonLibrary(driver.getWebDriver());
 		bLibrary = new ProjectsNCustomersLibrary(driver.getWebDriver());
