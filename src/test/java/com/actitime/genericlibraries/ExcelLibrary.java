@@ -3,6 +3,7 @@ package com.actitime.genericlibraries;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,7 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class ExcelLibrary {
 
-	private FileInputStream fis = null;
+	private InputStream fis = null;
 	private FileOutputStream fos = null;
 	private Workbook workbook = null;
 	private Sheet sheet = null;;
@@ -22,12 +23,17 @@ public class ExcelLibrary {
 	private String filePath = null;
 
 	public ExcelLibrary() throws InvalidFormatException, IOException {
-		filePath = "H:\\Selenium\\actiTimeTestdata.xlsx";
+		filePath = "actiTimeTestdata.xlsx";
+	}
+
+	private void openFile() {
+		fis = this.getClass().getClassLoader().getResourceAsStream(filePath);
 	}
 
 	public String getExcelData(int rowNumber, int columnNumber,
 			String sheetNumber) throws InvalidFormatException, IOException {
-		fis = new FileInputStream(filePath);
+		openFile();
+
 		workbook = WorkbookFactory.create(fis);
 		sheet = workbook.getSheet(sheetNumber);
 		row = sheet.getRow(rowNumber);
@@ -38,7 +44,8 @@ public class ExcelLibrary {
 
 	public int getRowCount(String sheetNumber) throws InvalidFormatException,
 			IOException {
-		fis = new FileInputStream(filePath);
+		openFile();
+		
 		workbook = WorkbookFactory.create(fis);
 		sheet = workbook.getSheet(sheetNumber);
 		fis.close();
@@ -47,7 +54,8 @@ public class ExcelLibrary {
 
 	public String getCellData(String sheetNumber, int rowNumber,
 			int columnNumber) throws InvalidFormatException, IOException {
-		fis = new FileInputStream(filePath);
+		openFile();
+		
 		workbook = WorkbookFactory.create(fis);
 		sheet = workbook.getSheet(sheetNumber);
 
@@ -64,7 +72,8 @@ public class ExcelLibrary {
 	public void setExcelValue(int rowNumber, int columnNumber,
 			String sheetNumber, String data) throws IOException,
 			InvalidFormatException {
-		fis = new FileInputStream(filePath);
+		openFile();
+		
 		workbook = WorkbookFactory.create(fis);
 		sheet = workbook.getSheet(sheetNumber);
 		row = sheet.getRow(rowNumber);
@@ -77,6 +86,5 @@ public class ExcelLibrary {
 		fos.flush();
 		fos.close();
 	}
-	
 
 }
