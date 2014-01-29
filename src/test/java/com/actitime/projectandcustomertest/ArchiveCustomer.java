@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -48,8 +49,8 @@ public class ArchiveCustomer {
 	@BeforeMethod
 	public void login() throws InvalidFormatException, IOException {
 		cLibrary.getUrl();
-		cLibrary.loginPage(eLibrary.getExcelData(5, 1, "Testcases"),
-				eLibrary.getExcelData(5, 2, "Testcases"));
+		Assert.assertTrue(cLibrary.loginPage(eLibrary.getExcelData(5, 1, "Testcases"),
+				eLibrary.getExcelData(5, 2, "Testcases")), "Login failed");
 		bLibrary.navigateToCustomersAndProjects();
 	}
 
@@ -60,16 +61,16 @@ public class ArchiveCustomer {
 
 		// Create customer and archive the same
 		bLibrary.createCustomer(customerName);
-		aLibrary.archiveCustomer(customerName);
+		Assert.assertTrue(aLibrary.archiveCustomer(customerName), "Archiving customer failed");
 
 		// Restore archived project
 		aLibrary.navigateToArchives();
 		dLibrary.waitForPageToLoad();
-		aLibrary.restoreCustomer(customerName);
+		Assert.assertTrue(aLibrary.restoreCustomer(customerName), "Restoring customer failed");
 
 		// Deleting the restored project
 		bLibrary.navigateToCustomersAndProjects();
-		aLibrary.deleteCustomer(customerName);
+		Assert.assertTrue(aLibrary.deleteCustomer(customerName), "Deleting customer failed");
 	}
 
 	@AfterMethod

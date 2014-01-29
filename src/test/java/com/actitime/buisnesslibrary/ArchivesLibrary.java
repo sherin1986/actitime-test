@@ -16,18 +16,17 @@ public class ArchivesLibrary {
 	ActiveProjectsAndCustomers activeBtn;
 	Archives archiveBtn;
 	ProjectsNTasks projectTasks;
-	
+
 	private WebDriver driver;
 
 	public ArchivesLibrary(WebDriver driver) {
 		this.driver = driver;
-		
+
 		dLibrary = new WebdriverCommonUtil(driver);
 		activeBtn = PageFactory.initElements(driver,
 				ActiveProjectsAndCustomers.class);
 		archiveBtn = PageFactory.initElements(driver, Archives.class);
-		projectTasks = PageFactory.initElements(driver,
-				ProjectsNTasks.class);
+		projectTasks = PageFactory.initElements(driver, ProjectsNTasks.class);
 	}
 
 	public void navigateToArchives() {
@@ -35,49 +34,71 @@ public class ArchivesLibrary {
 		dLibrary.waitForPageToLoad();
 	}
 
-	public void archiveCustomer(String customerName) {
-		driver.findElement(
-				By.xpath("//td[a[text()='" + customerName
-						+ "']]/following-sibling::td[5]/input")).click();
-		activeBtn.getArchiveSelectedCustomerAndProjectBtn().click();
-		Alert archiveAlert = driver.switchTo().alert();
-		archiveAlert.accept();
-		dLibrary.waitForPageToLoad();
-
+	public boolean archiveCustomer(String customerName) {
+		boolean status = true;
+		try {
+			driver.findElement(
+					By.xpath("//td[a[text()='" + customerName
+							+ "']]/following-sibling::td[5]/input")).click();
+			activeBtn.getArchiveSelectedCustomerAndProjectBtn().click();
+			Alert archiveAlert = driver.switchTo().alert();
+			archiveAlert.accept();
+			dLibrary.waitForPageToLoad();
+		} catch (Exception e) {
+			status = false;
+		}
+		return status;
 	}
 
-	public void restoreCustomer(String customerName) {
-
-		driver.findElement(
-				By.xpath("//td[a[text()='" + customerName
-						+ "']]/following-sibling::td[3]/input")).click();
-		archiveBtn.getBtnRestoreSelectedCustomer().click();
-		Alert restoreAlert = driver.switchTo().alert();
-		restoreAlert.accept();
-		dLibrary.waitForPageToLoad();
-
+	public boolean restoreCustomer(String customerName) {
+		boolean status = true;
+		try {
+			driver.findElement(
+					By.xpath("//td[a[text()='" + customerName
+							+ "']]/following-sibling::td[3]/input")).click();
+			archiveBtn.getBtnRestoreSelectedCustomer().click();
+			Alert restoreAlert = driver.switchTo().alert();
+			restoreAlert.accept();
+			dLibrary.waitForPageToLoad();
+		} catch (Exception e) {
+			status = false;
+		}
+		return status;
 	}
 
-	public void deleteCustomer(String customerName) {
-		driver.findElement(
-				By.xpath("//td/a[text()='" + customerName + "']")).click();
-		dLibrary.waitForPageToLoad();
-		driver.findElement(
-				By.xpath("//input[@value='Delete This Customer']")).click();
-		Alert deleteAlert = driver.switchTo().alert();
-		deleteAlert.accept();
-		dLibrary.waitForPageToLoad();
-
+	public boolean deleteCustomer(String customerName) {
+		boolean status = true;
+		try {
+			driver.findElement(
+					By.xpath("//td/a[text()='" + customerName + "']")).click();
+			dLibrary.waitForPageToLoad();
+			driver.findElement(
+					By.xpath("//input[@value='Delete This Customer']")).click();
+			Alert deleteAlert = driver.switchTo().alert();
+			deleteAlert.accept();
+			dLibrary.waitForPageToLoad();
+		} catch (Exception e) {
+			status = false;
+		}
+		return status;
 	}
-	public void deleteProject(String projectName){
-		driver.findElement(
-				By.xpath("//td/div/a[text()='" + projectName + "']")).click();
-		dLibrary.waitForPageToLoad();
-		driver.findElement(
-				By.xpath("//input[@value='Delete This Project']")).click();
-		Alert deleteAlert = driver.switchTo().alert();
-		deleteAlert.accept();
-		dLibrary.waitForPageToLoad();
+
+	public boolean deleteProject(String projectName) {
+		boolean status = true;
+		try {
+			driver.findElement(
+					By.xpath("//td/div/a[text()='" + projectName + "']"))
+					.click();
+			dLibrary.waitForPageToLoad();
+			driver.findElement(
+					By.xpath("//input[@value='Delete This Project']")).click();
+			Alert deleteAlert = driver.switchTo().alert();
+			deleteAlert.accept();
+			dLibrary.waitForPageToLoad();
+		} catch (Exception e) {
+			status = false;
+		}
+		return status;
 	}
 
 }

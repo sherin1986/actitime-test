@@ -3,6 +3,8 @@ package com.actitime.projectandcustomertest;
 import java.io.IOException;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -51,8 +53,8 @@ public class OpenTasks {
 	@BeforeMethod
 	public void login() throws InvalidFormatException, IOException {
 		cLibrary.getUrl();
-		cLibrary.loginPage(eLibrary.getExcelData(6, 1, "Testcases"),
-				eLibrary.getExcelData(6, 2, "Testcases"));
+		Assert.assertTrue("Login failed", cLibrary.loginPage(eLibrary.getExcelData(6, 1, "Testcases"),
+				eLibrary.getExcelData(6, 2, "Testcases")));
 	}
 
 	@Test
@@ -85,11 +87,11 @@ public class OpenTasks {
 					projectName);
 		}
 
-		oLibrary.createTasks("Tasks");
+		Assert.assertTrue("Task creation failed", oLibrary.createTasks("Tasks"));
 		if(flag==0){
 			bLibrary.navigateToCustomersAndProjects();
-			aLibrary.deleteProject(projectName);
-			aLibrary.deleteCustomer(customerName);
+			Assert.assertTrue("Project deletion failed", aLibrary.deleteProject(projectName));
+			Assert.assertTrue("Customer deletion failed",aLibrary.deleteCustomer(customerName));
 		}
 
 	}

@@ -41,8 +41,10 @@ public class OpenTasksLibrary {
 		dLibrary.waitForPageToLoad();
 	}
 
-	public void createTasks(String sheetName) throws InvalidFormatException,
+	public boolean createTasks(String sheetName) throws InvalidFormatException,
 			IOException {
+		boolean status = true;
+		try{
 		// Adding tasks and deleting them after creation
 		int taskIndex = 0;
 		for (int j = 0; j < eLibrary.getRowCount(sheetName); j++) {
@@ -88,5 +90,9 @@ public class OpenTasksLibrary {
 				dLibrary.waitForPageToLoad();
 			}
 		}
+		}catch(Exception e){
+			status = false;
+		}
+		return status;
 	}
 }
